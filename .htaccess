@@ -1,0 +1,4 @@
+RewriteEngine On
+
+#будем пересылать все запросы на index.php
+RewriteRule ^(.*)$ index.php

@@ -68,6 +68,20 @@ class Application
         return $arr;
     }
 
+    public function redirect(string $addr) 
+    {
+        $host  = $_SERVER['HTTP_HOST'];
+        header("Location: http://$host/$addr/");
+    }
+
+    public function cleanArrayXss(Array $arr) {
+        foreach ($arr as $key => $value) {
+            $arr[$key] = htmlspecialchars($value, ENT_QUOTES);
+        }
+        return $arr;
+        
+    }
+
     private function __clone() {}
     private function __construct() {}
 }

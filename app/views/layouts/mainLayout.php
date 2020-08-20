@@ -25,7 +25,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Авторизация</a>
+            <a class="nav-link" href="/login/">Авторизация</a>
           </li>
         </ul>
       </div>
@@ -46,6 +46,8 @@
 </nav>
     </footer>
     <script src="/assets/js/jquery-3.5.1.min.js"></script>
+    <script src="/assets/js/jquery.validate.min.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/main.js"></script>
 </body>
 </html>

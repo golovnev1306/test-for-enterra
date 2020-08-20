@@ -6,9 +6,10 @@ class Controller
 
     private static $is404 = true;
 
-    final static function start() 
+    final static function start(Array $params) 
     {
         global $App;
+
         $controllerName = ucfirst($App->getController());
         $action = $App->getAction();
 
@@ -18,7 +19,10 @@ class Controller
             include_once $pathController;
             $actionFunc = "{$action}Action";
             if (method_exists($controllerName, $actionFunc)) {
-                (new $controllerName)->$actionFunc();
+
+                (new $controllerName)->$actionFunc(...$params);
+                
+               
                 self::$is404 = false;
             }
         }
@@ -29,7 +33,7 @@ class Controller
         
     }
 
-    private static function error404() 
+    final static function error404() 
     {
         global $App;
         self::$is404 = false;
@@ -40,6 +44,6 @@ class Controller
         $App->setController($App->getConfig('404Controller'));
         $App->setAction($App->getConfig('404Action'));
 
-        self::start();
+        self::start([]);
     }
 }

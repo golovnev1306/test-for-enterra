@@ -3,11 +3,13 @@ namespace core;
 
 class View 
 {
-    static function render($vars = []) 
+    static function render($vars = [], $view = null) 
     {
         global $App;
+        $view = $view ?? $App->getAction();
+
         $pathViewLayout = $App->pathToViews() . 'layouts/' . $App->getConfig('layout') . '.php';
-        $pathView = $App->pathToViews() . '/' . $App->getController() . '/' . $App->getAction() . '.php'; //переменная используется также в файле layout
+        $pathView = $App->pathToViews() . '/' . $App->getController() . '/' . $view . '.php'; //переменная используется также в файле layout
         if (file_exists($pathViewLayout) && file_exists($pathView)) {
             foreach ($vars as $key => $var) {
                 $$key = $var;

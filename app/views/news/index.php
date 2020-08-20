@@ -13,7 +13,8 @@ global $App;
             <img src="<?=$item["image"] ? $item["image"] : ($App->pathToImg() . 'no-photo.png')?>" alt="<?=$item["name"]?>">
         </div>
         <div class="news-priview-text"><?=$item["preview_text"]?></div>
-        <div class="news-date-created"><?=$item["date_created"]?></div>
+        <div class="news-date-created"><?=date($App->getConfig('dateFormat'), strtotime($item['date_created']))?></div>
+        <a class="news-link" href="/news/detail/<?=$item["id"]?>"></a>
     </div>
 
 <?}?>

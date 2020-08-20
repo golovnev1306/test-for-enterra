@@ -8,6 +8,7 @@ footer {
 
 .news-item {
     display: flex;
+    position: relative;
     padding: 10px 15px;
     flex-flow: column nowrap;
     align-items: center;
@@ -37,9 +38,73 @@ footer {
     height: 200px;
 }
 
-.news-item .news-image img{
+.news-detail .news-detail-image img {
+    background-color: #fcfcfc;
+    border-radius: 5px;
+}
+
+.news-item .news-image img,
+.news-detail .news-detail-image img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     user-select: none;
 }
+
+.news-item .news-link {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.news-detail-info {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+.news-detail-date {
+    text-align: right;
+    font-size: 13px;
+    color: #777;
+    font-style: italic;
+    padding-top: 10px;
+}
+
+.back-to-list {
+    margin: 20px 0;
+}
+
+.back-to-list a {
+    text-decoration: none;
+    color: #333;
+    font-size: 20px;
+    transition: all .25s ease;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    width: max-content;
+}
+
+.back-to-list a:hover {
+    color: #666;
+}
+
+.back-to-list a:hover:before {
+    transform: translateX(0);
+}
+
+.back-to-list a:before {
+    content: '';
+    background: linear-gradient(to right, #666, #999);
+    height: 2px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    transform: translateX(-101%);
+    transition: all .25s ease;
+}
+

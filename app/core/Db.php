@@ -41,6 +41,31 @@ class Db
         return mysqli_query(self::$instance->connection, $query);
     }
 
+    public function prepareQuery($query, $args) 
+    {
+        $types = '';
+        $values = [];
+        foreach ($args as $arg) {
+            $types .= $arg['type'];
+            $values[] = $arg['value'];
+        }
+
+        $connection = self::$instance->connection;
+        if (!($stmt = $connection->prepare($query))) {
+            echo "Не удалось подготовить запрос: (" . $connection->errno . ") " . $connection->error;
+        }
+
+        if (!$stmt->bind_param($types, ...$values)) {
+            echo "Не удалось привязать параметры: (" . $stmt->errno . ") " . $stmt->error;
+        }
+
+        if (!$stmt->execute()) {
+            echo "Не удалось выполнить запрос: (" . $stmt->errno . ") " . $stmt->error;
+        }
+
+        return $stmt->get_result();
+    }
+
     public function closeConnection() 
     {
         mysqli_close(self::$instance->connection);

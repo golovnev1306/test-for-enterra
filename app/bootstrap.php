@@ -1,8 +1,13 @@
 <?php
 require_once "config.php";
+use core\Application;
+use core\Route;
 
 spl_autoload_register(function ($className) {
-    include 'core/' . $className . '.php';
+    if (file_exists(__DIR__ . '/' . $className . '.php')) {
+        include $className . '.php';
+    }
+        
 });
 
 $App = Application::getInstance();

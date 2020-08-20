@@ -1,4 +1,7 @@
 RewriteEngine On
 
 #будем пересылать все запросы на index.php
-RewriteRule ^(.*)$ index.php
+RewriteCond %{SCRIPT_FILENAME} !-d  
+RewriteCond %{SCRIPT_FILENAME} !-f  
+
+RewriteRule ^(.*)$ index.php [L]

@@ -1,11 +1,12 @@
 <?php
+namespace core;
 
 class Application 
 {
     private static $instance = null;
-    private $controller;
-    private $action;
-    public $config;
+    private $controller = null;
+    private $action = null;
+    private $config = null;
 
     public static function getInstance()
     {
@@ -40,9 +41,19 @@ class Application
         return self::$instance->action;
     }
 
+    public function getConfig($confName)
+    {
+        return self::$instance->config[$confName];
+    }
+
     public function pathToViews() 
     {
         return $_SERVER['DOCUMENT_ROOT'] . '/app/views/';
+    }
+
+    public function pathToImg() 
+    {
+        return '/assets/img/';
     }
 
     public function pathToControllers() 

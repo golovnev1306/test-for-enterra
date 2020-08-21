@@ -1,7 +1,9 @@
 <?php
 global $App;
 ?>
-<h1>Список новостей</h1>
+<div class="title">
+    <h1>Список новостей</h1>
+</div>
 <hr>
 <div class="news-list row">
 

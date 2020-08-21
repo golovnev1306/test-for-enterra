@@ -1,7 +1,9 @@
 <?php
 global $App;
 ?>
-<h1><?=$news['name']?></h1>
+<div class="title">
+    <h1><?=$news['name']?></h1>
+</div>
 <hr>
 <div class="news-detail row">
     <div class="news-detail-image col-sm-12 col-md-6">

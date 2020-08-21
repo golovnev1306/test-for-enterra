@@ -5,17 +5,35 @@ use models\Users;
 
 class Login extends Controller
 {
-    function indexAction() {
+    function indexAction() 
+    {
         View::render();
     }
 
-    function authAction() {
+    function authAction() 
+    {
         global $App;
 
         $data = $App->cleanArrayXss($_POST);
 
-        Users::login($data['login'], $data['pass']);
+        $user = new Users();
 
-        $App->redirect('login');
+        if($user->login($data['login'], $data['pass'])) {
+            $App->redirect('admin');
+        } else {
+            $App->setFlashMessage('message', [
+                'value' => 'Неверный логин/пароль', 
+                'type' => 'danger'
+                ]);
+            $App->redirect('login');
+        }
+    }
+
+    function logoutAction()
+    {
+        global $App;
+        
+        $App->endSession();
+        $App->redirect('news');
     }
 }

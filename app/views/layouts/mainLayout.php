@@ -1,4 +1,5 @@
 <?php
+global $App;
 ?>
 <!doctype html>
 
@@ -7,7 +8,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css" type="text/css"/>
     <link rel="stylesheet" href="/assets/css/main.css" type="text/css">
 
@@ -24,8 +25,17 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+        <?if ($App->isAutorized()) {?>
           <li class="nav-item">
+            <a class="nav-link" href="/admin/">Административная панель</a>
+          </li>
+        <?}?>
+          <li class="nav-item">
+          <?if ($App->isAutorized()) {?>
+            <a class="nav-link" href="/login/logout/">Выход (<?=$App->getUserLogin()?>)</a>
+          <?} else {?>
             <a class="nav-link" href="/login/">Авторизация</a>
+          <?}?>
           </li>
         </ul>
       </div>

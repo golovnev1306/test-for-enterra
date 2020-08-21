@@ -12,4 +12,6 @@ spl_autoload_register(function ($className) {
 
 $App = Application::getInstance();
 
+
+session_start();
 Route::run();

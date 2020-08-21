@@ -5,6 +5,17 @@ class Controller
 {
 
     private static $is404 = true;
+    public $isDisallow = false; // запрещен ли доступ к контроллеру, проверяем здесь (если у потомка переопределено это свойство на true)
+
+    public function __construct()
+    {
+        global $App;
+
+        if ($this->getIsDisallow() && $App->isAutorized()) { //если в контроллере установлено свойства о недоступности, 
+                                                                //а пользователь авторизован - меняем свойство
+            $this->isDisallow = false;
+        }
+    }
 
     final static function start(Array $params) 
     {
@@ -20,8 +31,17 @@ class Controller
             $actionFunc = "{$action}Action";
             if (method_exists($controllerName, $actionFunc)) {
 
-                (new $controllerName)->$actionFunc(...$params);
-                
+                $includedController = new $controllerName;
+
+                if (!$includedController->getIsDisallow()) {
+                    $includedController->$actionFunc(...$params);
+                } else {
+                    $App->setFlashMessage('message', [
+                            'value' => 'доступ запрещен',
+                            'type' => 'danger'
+                        ]);
+                    $App->redirect('login');
+                }
                
                 self::$is404 = false;
             }
@@ -45,5 +65,10 @@ class Controller
         $App->setAction($App->getConfig('404Action'));
 
         self::start([]);
+    }
+
+    final function getIsDisallow()
+    {
+        return $this->isDisallow;
     }
 }

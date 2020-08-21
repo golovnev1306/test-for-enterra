@@ -43,12 +43,8 @@ class Db
 
     public function prepareQuery($query, $args) 
     {
-        $types = '';
-        $values = [];
-        foreach ($args as $arg) {
-            $types .= $arg['type'];
-            $values[] = $arg['value'];
-        }
+        $types = implode('', array_column($args, 'type'));
+        $values = array_column($args, 'value');
 
         $connection = self::$instance->connection;
         if (!($stmt = $connection->prepare($query))) {

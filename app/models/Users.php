@@ -8,10 +8,13 @@ class Users extends Model
 {
     public $tableName;
 
-    static function login(string $login, string $pass) 
+    public function login(string $login, string $pass) 
     {
+        
+        //print_r($this->tableName);
         $db = Db::getInstance();
-        $query = "select * from {self::$tableName} where login=(?) and pass=(?) limit 1";
+        $query = "select * from {$this->tableName} where login=(?) and pass=(?) limit 1";
+
         $args = [
             [
                 'type' => 's',
@@ -26,8 +29,7 @@ class Users extends Model
         $db->closeConnection();
 
         $user = mysqli_fetch_assoc($dbRes);
-
-        if (!null === $user) {
+        if (null !== $user) {
             $_SESSION["autorizeUser"] = $user;
             return true;
         }

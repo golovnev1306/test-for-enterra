@@ -16,7 +16,7 @@ class Model
         }
     }
 
-    public function getAll() 
+    public function getAll()
     {
         $db = Db::getInstance();
         $query = "select * from $this->tableName";
@@ -26,7 +26,7 @@ class Model
         return mysqli_fetch_all($dbRes, MYSQLI_ASSOC);
     }
 
-    public function getFirst() 
+    public function getFirst()
     {
         $db = Db::getInstance();
         $query = "select * from $this->tableName limit 1";
@@ -35,7 +35,8 @@ class Model
 
         return mysqli_fetch_assoc($dbRes);
     }
-    public function getById($id) 
+    
+    public function getById($id)
     {
         $db = Db::getInstance();
         $stmtQuery = "select * from $this->tableName where id=(?)";
@@ -46,5 +47,47 @@ class Model
         $dbRes = $db->prepareQuery($stmtQuery, $args);
 
         return mysqli_fetch_assoc($dbRes);
+    }
+
+    public function add($args)
+    {
+        $db = Db::getInstance();
+        $stmtQuery = "insert into $this->tableName (name, preview_text, detail_text, image) values ((?), (?), (?), (?))";
+        $args = [
+            [
+                'type' => 's',
+                'value' => $args['name'],
+            ],
+            [
+                'type' => 's',
+                'value' => $args['preview_text'],
+            ],
+            [
+                'type' => 's',
+                'value' => $args['detail_text'],
+            ],
+            [
+                'type' => 's',
+                'value' => $args['image'],
+            ],
+        ];
+        $db->prepareQuery($stmtQuery, $args);
+        $db->closeConnection();
+        return true;
+    }
+
+    public function delete($id)
+    {
+        $db = Db::getInstance();
+        $stmtQuery = "delete from $this->tableName where id=(?)";
+        $args = [
+            [
+                'type' => 'i',
+                'value' => $id,
+            ]
+        ];
+        $db->prepareQuery($stmtQuery, $args);
+        $db->closeConnection();
+        return true;
     }
 }

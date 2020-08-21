@@ -3,21 +3,30 @@ namespace core;
 
 class View 
 {
-    static function render($vars = [], $view = null) 
+    static function render($vars = [], $view = null, $renderPart = false) 
     {
         global $App;
         $view = $view ?? $App->getAction();
+        $checkExistsFiles = [];
 
-        $pathViewLayout = $App->pathToViews() . 'layouts/' . $App->getConfig('layout') . '.php';
-        $pathView = $App->pathToViews() . '/' . $App->getController() . '/' . $view . '.php'; //переменная используется также в файле layout
-        if (file_exists($pathViewLayout) && file_exists($pathView)) {
+        $pathView = $App->pathToViews() . $App->getController() . '/' . $view . '.php';
+        $checkExistsFiles = file_exists($pathView);
+        $include = $pathView;
+
+        if (!$renderPart) {
+            $pathViewLayout = $App->pathToViews() . 'layouts/' . $App->getConfig('layout') . '.php';
+            $checkExistsFiles = $checkExistsFiles && file_exists($pathViewLayout);
+            $include = $pathViewLayout;
+        }
+
+        if ($checkExistsFiles) {
             foreach ($vars as $key => $var) {
                 $$key = $var;
             }
-            include_once $pathViewLayout;
+            include_once $include;
         } else {
-            echo "$pathViewLayout <br> $pathView <br>";
             echo "произошла ошибка подключения файла представления";
+            exit;
         }
     }
 }

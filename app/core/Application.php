@@ -72,6 +72,7 @@ class Application
     {
         $host  = $_SERVER['HTTP_HOST'];
         header("Location: http://$host/$addr/");
+        exit;
     }
 
     public function cleanArrayXss(Array $arr) {
@@ -81,6 +82,39 @@ class Application
         return $arr;
         
     }
+
+    public function setFlashMessage($key, $value) 
+    {
+        $_SESSION[$key] = $value;
+    } 
+
+    public function getFlashMessage($key) 
+    {
+        $value = $_SESSION[$key];
+        unset($_SESSION[$key]);
+        return $value;
+    }
+
+    public function hasFlashMessage($key) 
+    {
+        return $_SESSION[$key] ? true : false;
+    }
+
+    public function isAutorized() 
+    {
+        return null !== $_SESSION['autorizeUser'];
+    }
+
+    public function getUserLogin() 
+    {
+        return $_SESSION['autorizeUser']['login'];
+    }
+
+    public function endSession() 
+    {
+        session_unset();
+    }
+
 
     private function __clone() {}
     private function __construct() {}

@@ -1,6 +1,8 @@
 <?php
+defined('INCLUDE_INDEX') or die('Restricted access');
 use core\Controller;
 use core\View;
+use core\Cache;
 use models\News as NewsModel;
 
 class News extends Controller

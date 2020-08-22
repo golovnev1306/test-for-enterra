@@ -1,3 +1,6 @@
+<?php
+defined('INCLUDE_INDEX') or die('Restricted access');
+?>
 <div class="title">
     <h1>Страница не найдена</h1> 
 </div>

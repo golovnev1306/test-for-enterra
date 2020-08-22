@@ -1,5 +1,7 @@
 <?php
+defined('INCLUDE_INDEX') or die('Restricted access');
 global $App;
+
 ?>
 <!doctype html>
 

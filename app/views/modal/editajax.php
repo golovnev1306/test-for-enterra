@@ -1,4 +1,7 @@
-<div class="modal fade" id="editNewsModal" tabindex="-1" role="dialog" aria-hidden="true">
+<?php
+defined('INCLUDE_INDEX') or die('Restricted access');
+?>
+<div class="modal fade js-modal js-edit-modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -11,19 +14,21 @@
       <div class="modal-body">
           <div class="form-group">
               <label for="inputName3">Наименование:</label>
-              <input type="text" class="form-control" id="inputName3" placeholder="Название" name="name" value="<?=$news['name']?>">
+              <input type="text" class="form-control" id="inputName3" placeholder="Название" name="name" value="">
           </div>
           <div class="form-group">
               <label for="inputPriviewText3">Короткий текст:</label>
-              <textarea type="text" class="form-control" id="inputPriviewText3" placeholder="Короткий текст" name="preview_text" rows="6"><?=$news['preview_text']?></textarea>
+              <textarea type="text" class="form-control" id="inputPriviewText3" placeholder="Короткий текст" name="preview_text" rows="6"></textarea>
           </div>
           <div class="form-group">
               <label for="inputDetailText3">Подробный текст:</label>
-              <textarea type="text" class="form-control" id="inputDetailText3" placeholder="Подробный текст" name="detail_text" rows="6"><?=$news['detail_text']?></textarea>
+              <textarea type="text" class="form-control" id="inputDetailText3" placeholder="Подробный текст" name="detail_text" rows="6"></textarea>
           </div>
           <div class="form-group">
-              <label for="inputFile3">Изображение:</label>
-              <input type="file" class="form-control-file" id="inputFile3" name="image">
+            <div class="input-file-container">
+              <label class="input-file-label" for="inputFile3"></label>
+              <div class="input-file-text">Перетащите, или кликните чтобы выбрать изображение</div>
+              <input class="form-control-file input-file" id="inputFile3" type="file"  name="image">
           </div>
           
       </div>
@@ -36,3 +41,6 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+$news = <?=json_encode($news);?>
+</script>

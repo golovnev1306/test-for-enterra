@@ -1,4 +1,5 @@
 <?php
+defined('INCLUDE_INDEX') or die('Restricted access');
 namespace core;
 
 class Application 
@@ -61,6 +62,16 @@ class Application
         return $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/';
     }
 
+    public function pathToCache() 
+    {
+        return $_SERVER['DOCUMENT_ROOT'] . '/app/cache/';
+    }
+
+    public function pathToUpload() 
+    {
+        return $_SERVER['DOCUMENT_ROOT'] . '/upload/';
+    }
+
     public function arrayDeleteEmpty($arr)
     {
         $arr = array_diff($arr, ['']);
@@ -71,7 +82,7 @@ class Application
     public function redirect(string $addr) 
     {
         $host  = $_SERVER['HTTP_HOST'];
-        header("Location: http://$host/$addr/");
+        header("Location: http://$host/$addr");
         exit;
     }
 

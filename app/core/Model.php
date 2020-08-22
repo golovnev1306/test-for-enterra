@@ -1,5 +1,5 @@
 <?php
-
+defined('INCLUDE_INDEX') or die('Restricted access');
 namespace core;
 
 class Model
@@ -18,35 +18,58 @@ class Model
 
     public function getAll()
     {
-        $db = Db::getInstance();
-        $query = "select * from $this->tableName";
-        $dbRes = $db->execQuery($query);
-        $db->closeConnection();
+        $arr = Cache::get($this->tableName);
+        if (!$arr) {
+            $db = Db::getInstance();
+            $query = "select * from $this->tableName";
+            $dbRes = $db->execQuery($query);
+            $db->closeConnection();
+            $arrDb = mysqli_fetch_all($dbRes, MYSQLI_ASSOC);
+            $arr = [];
+            foreach ($arrDb as $item) {
+                $arr[$item['id']] = $item;
+            }
 
-        return mysqli_fetch_all($dbRes, MYSQLI_ASSOC);
+            Cache::create($this->tableName, $arr);
+        }
+        return $arr;
     }
 
+    //если у нас есть целый массив с новостями в кэше, возьмем первый эл-т оттуда
+    //иначе сделаем запрос
     public function getFirst()
     {
-        $db = Db::getInstance();
-        $query = "select * from $this->tableName limit 1";
-        $dbRes = $db->execQuery($query);
-        $db->closeConnection();
+        $arr = Cache::get($this->tableName);
+        if (!$arr) { 
+            $db = Db::getInstance();
+            $query = "select * from $this->tableName limit 1";
+            $dbRes = $db->execQuery($query);
+            $db->closeConnection();
+            $result = mysqli_fetch_assoc($dbRes);
+        } else {
+            $result = array_shift($arr);
+        }
 
-        return mysqli_fetch_assoc($dbRes);
+        return $result;
     }
     
     public function getById($id)
     {
-        $db = Db::getInstance();
-        $stmtQuery = "select * from $this->tableName where id=(?)";
-        $args[] = [
-            'type' => 'i',
-            'value' => $id,
-        ];
-        $dbRes = $db->prepareQuery($stmtQuery, $args);
+        $arr = Cache::get($this->tableName);
+        if (!$arr) { 
+            $db = Db::getInstance();
+            $stmtQuery = "select * from $this->tableName where id=(?)";
+            $args[] = [
+                'type' => 'i',
+                'value' => $id,
+            ];
+            $dbRes = $db->prepareQuery($stmtQuery, $args);
+            $result = mysqli_fetch_assoc($dbRes);
+        } else {
+            $result = $arr[$id];
+        }
 
-        return mysqli_fetch_assoc($dbRes);
+        return $result;
     }
 
     public function add($args)
@@ -73,6 +96,7 @@ class Model
         ];
         $db->prepareQuery($stmtQuery, $args);
         $db->closeConnection();
+        Cache::delete($this->tableName);
         return true;
     }
 
@@ -88,6 +112,7 @@ class Model
         ];
         $db->prepareQuery($stmtQuery, $args);
         $db->closeConnection();
+        Cache::delete($this->tableName);
         return true;
     }
 }

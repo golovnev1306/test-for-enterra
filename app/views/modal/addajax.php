@@ -1,3 +1,6 @@
+<?php
+defined('INCLUDE_INDEX') or die('Restricted access');
+?>
 <div class="modal fade" id="addNewsModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

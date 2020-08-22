@@ -1,19 +1,29 @@
 <?php
+defined('INCLUDE_INDEX') or die('Restricted access');
 namespace core;
 
 class Controller 
 {
 
     private static $is404 = true;
-    public $isDisallow = false; // запрещен ли доступ к контроллеру, проверяем здесь (если у потомка переопределено это свойство на true)
+    public $isDisallow = false;      // запрещен ли доступ к контроллеру, проверяем здесь
+    public $isForAutorized = false;  // предназначен ли контроллер только для авторизованных юзеров
+    public $isForAjax = false;       // предназначен ли контроллер только для ajax запросов (модальные окна)
 
     public function __construct()
     {
         global $App;
 
-        if ($this->getIsDisallow() && $App->isAutorized()) { //если в контроллере установлено свойства о недоступности, 
-                                                                //а пользователь авторизован - меняем свойство
-            $this->isDisallow = false;
+        if ($this->getIsForAutorized()) { //если в контроллере установлено свойства об ограничении
+            if (!$App->isAutorized()) {
+                $this->isDisallow = true;
+            }
+        }
+
+        if ($this->getIsForAjax()) {
+            if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                $this->isDisallow = true;
+            }
         }
     }
 
@@ -36,11 +46,7 @@ class Controller
                 if (!$includedController->getIsDisallow()) {
                     $includedController->$actionFunc(...$params);
                 } else {
-                    $App->setFlashMessage('message', [
-                            'value' => 'доступ запрещен',
-                            'type' => 'danger'
-                        ]);
-                    $App->redirect('login');
+                    $includedController->reasonAccessDenied();
                 }
                
                 self::$is404 = false;
@@ -70,5 +76,39 @@ class Controller
     final function getIsDisallow()
     {
         return $this->isDisallow;
+    }
+
+    final function getIsForAutorized()
+    {
+        return $this->isForAutorized;
+    }
+
+    final function getIsForAjax()
+    {
+        return $this->isForAjax;
+    }
+
+    final function reasonAccessDenied() {
+        global $App;
+        $reason = '';
+        $redirect = 'login';
+
+        if($this->getIsForAutorized()) {
+            $reason .= 'доступ запрещен';
+        } 
+
+        if($this->getIsForAjax()) {
+            if (!empty($reason)) {
+                $reason .= '<br>';
+            }
+            $reason .= 'Ошибка. Контроллер обрабатывает только ajax запросы';
+            $redirect = '';
+        } 
+        $App->setFlashMessage('message', [
+            'value' => $reason,
+            'type' => 'danger',
+        ]);
+
+        $App->redirect($redirect);
     }
 }

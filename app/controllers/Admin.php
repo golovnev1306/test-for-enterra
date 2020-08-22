@@ -1,11 +1,12 @@
 <?php
+defined('INCLUDE_INDEX') or die('Restricted access');
 use core\Controller;
 use core\View;
 use models\News;
 
 class Admin extends Controller
 {
-    public $isDisallow = true;//недоступно неавторизованным пользователям
+    public $isForAutorized = true; //недоступно неавторизованным пользователям
 
     function indexAction() 
     {
@@ -17,24 +18,23 @@ class Admin extends Controller
         View::render([
             "news" => $news
         ]);
-
-        
     }
 
     function addAction() 
     {
+        global $App;
         $message = '';
         $typeMessage = 'success';
 
         if (!empty($_POST)) {
-            global $App;
+
             $model = new News();
             $data = $App->cleanArrayXss($_POST);
             $isErrorFileLoad = false;
             $data['image'] = null;
 
             if (!empty($_FILES) && $_FILES['image']['error'] === 0) {
-                $uploadDir = '/upload/';
+                $uploadDir = $App->pathToUpload();
                 $extension = (new SplFileInfo($_FILES['image']['name']))->getExtension();
 
                 $filename = uniqid() . '.' . $extension;
@@ -42,8 +42,7 @@ class Admin extends Controller
                 $mime = $_FILES['image']['type'];
                 
                 if (strpos($mime, 'image') !== false) {
-                    print_r($_FILES);
-                    die;
+                    
                     if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
                         $data['image'] = $filename;
                     } else {
@@ -61,7 +60,6 @@ class Admin extends Controller
             if (!$isErrorFileLoad && $model->add($data)) {
                 $message = 'успешно';
             } else {
-                $message = 'Ошибка при добавлении в базу';
                 $typeMessage = 'danger';
             }
         } else {
@@ -77,7 +75,7 @@ class Admin extends Controller
         $App->redirect('admin');
     }
 
-    function deleteAction() 
+    function deleteajaxAction() 
     {
         global $App;
 
@@ -103,7 +101,26 @@ class Admin extends Controller
             'value' => $message,
             'type' => $typeMessage,
         ]);
+    }
 
-        return;
+    function getnewsajaxAction() 
+    {
+        global $App;
+
+        $isSuccess = false;
+
+        if (!empty($_POST)) {
+            $model = new News();
+            $data = $App->cleanArrayXss($_POST);
+            if ($news = $model->getById(intval($data['id']))) {
+                $isSuccess = true;
+            }
+        } 
+        $result = [
+            'success' => $isSuccess,
+            'news' => $news,
+        ];
+
+        echo json_encode($result);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+defined('INCLUDE_INDEX') or die('Restricted access');
 global $App;
 ?>
 <div class="title">

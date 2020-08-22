@@ -1,21 +1,26 @@
+'use strict'
 $(document).ready(function() {
     init();
 });
 
 function init() {
     window.$body = $(document.body);
-    $modalAddContainer = $body.find('.modal-add-container');
-    $modalEditContainer = $body.find('.modal-edit-container');
+    const $modalAddContainer = $body.find('.js-modal-add-container');
+    const $modalEditContainer = $body.find('.js-modal-edit-container');
 
-    loadModalAdd($modalAddContainer);
-    const $butDeleteNews = $body.find('.btn-delete-news');
-    const $butEditNews = $body.find('.btn-edit-modal-news');
+    if($modalAddContainer.length !== 0) {       //если есть один из контейнером, значит мы на странице админа
+        loadModal('add', $modalAddContainer);   //будем подгружать ajax некоторые данные после загрузки страницы,
+        loadModal('edit', $modalEditContainer); //за счет этого, страница будет отображаться быстрее
+    }
+    const $butDeleteNews = $body.find('.js-btn-delete-news');
+    const $butEditNews = $body.find('.js-btn-edit-modal-news');
+    const $fileContainer = $body.find('.input-file-container');
 
     $butDeleteNews.on('click', function(ev){
         if (confirm('Уверены, что хотите удалить новость?')) {
             const id = $(this).closest('.js-news-admin-item').attr('data-id');
             $.ajax({
-                url: `/admin/delete`,
+                url: `/admin/deleteajax`,
                 method: 'POST',
                 data: {id: id},
                 success: function() {
@@ -25,15 +30,31 @@ function init() {
         }
     });
 
-    $butEditNews.on('click',function(ev){
+    $butEditNews.on('click', async function(ev){
         const id = $(this).closest('.js-news-admin-item').attr('data-id');
-        loadModalEdit($modalEditContainer, id);
-    })
+        await insertDataInModal($modalEditContainer, id).then($('.js-edit-modal').modal());
+    });
+
+    // $fileContainer.droppable({
+    //     drop: function(ev) {
+    //             console.log(ev);
+    //         }
+    // });
+
+    $fileContainer.on('dragover', function(event) {
+        event.preventDefault();
+        console.log(event);
+    });
+
+    $fileContainer.on('drop', function(ev) {
+        console.log(ev);
+    });
+
 }
 
-function loadModalAdd($containerModal) {
+function loadModal(type, $containerModal) {
     $.ajax({
-        url: `/modal/addajax`,
+        url: `/modal/${type}ajax`,
         method: 'POST',
         success: function(data) {
             $containerModal.append(data);
@@ -41,20 +62,24 @@ function loadModalAdd($containerModal) {
     });
 }
 
-function loadModalEdit($containerModal, id) {
-    $.ajax({
-        url: `/modal/editajax`,
-        method: 'POST',
-        data: {id: id},
-        beforeSend: function() {
-            $('#editNewsModal').remove();
-            window.$body.append('<div class="overlay loading"><div class="loading-text">Загрузка данных новости...</div></div>');
-        },
+async function insertDataInModal($containerModal, id) {
+    return new Promise(async function(resolve, reject) {
 
-        success: function(data) {
-            $('.loading').remove();
-            $containerModal.append(data);
-            $('#editNewsModal').modal();
+        let $modal = $containerModal.find('.js-modal');
+        if ($modal.length !== 0) {
+            if (undefined !== window.$news[id]) {
+                var fields = {
+                    '#inputName3': window.$news[id].name,
+                    '#inputPriviewText3' : window.$news[id].preview_text,
+                    '#inputDetailText3' : window.$news[id].detail_text,
+                };
+
+                for (let key in fields) {
+                    $modal.find(key).val(fields[key]);
+                }
+                resolve();
+            }
         }
+        reject();
     });
 }

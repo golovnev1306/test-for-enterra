@@ -1,10 +1,12 @@
 <?php
+defined('INCLUDE_INDEX') or die('Restricted access');
 use core\Controller;
 use core\View;
 use models\News;
 
 class Modal extends Controller
 {
+    public $isForAjax = true;
 
     function addajaxAction() 
     {
@@ -18,7 +20,7 @@ class Modal extends Controller
         global $App;
         $data = $App->cleanArrayXss($_POST);
         $model = new News();
-        $news = $model->getById($data['id']);
+        $news = $model->getAll();
         return View::render(['news' => $news], null, true);
     }
 }

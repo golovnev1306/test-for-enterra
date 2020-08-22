@@ -1,4 +1,5 @@
 <?php
+defined('INCLUDE_INDEX') or die('Restricted access');
 global $App;
 ?>
 <div class="title">
@@ -7,7 +8,7 @@ global $App;
 <hr>
 <div class="news-detail row">
     <div class="news-detail-image col-sm-12 col-md-6">
-        <img src="<?=$news['image'] ? $news['image'] : $App->pathToImg() . 'no-photo.png'?>">
+        <img src="<?=$news['image'] ? ('/upload/' . $news['image']) : $App->pathToImg() . 'no-photo.png'?>">
     </div>
     <div class="news-detail-info col-sm-12 col-md-6">
         <div class="news-detail-text"><?=$news['detail_text']?></div >

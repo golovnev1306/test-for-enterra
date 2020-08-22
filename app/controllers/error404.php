@@ -1,5 +1,5 @@
 <?php
-
+defined('INCLUDE_INDEX') or die('Restricted access');
 use core\Controller;
 use core\View;
 

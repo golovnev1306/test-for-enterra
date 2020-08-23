@@ -17,7 +17,7 @@ global $App;
 <?}?>
 <hr>
 <div class="login">
-    <form class="login-form" action="/login/auth/" method="POST">
+    <form class="login-form js-login-form" action="/login/auth/" method="POST">
         <div class="form-group">
             <label for="inputLogin1">Логин:</label>
             <input type="text" class="form-control" id="inputLogin1" placeholder="Введите логин" name="login">

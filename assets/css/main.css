@@ -217,3 +217,64 @@ textarea {
     display: block;
     cursor: pointer;
 }
+
+.input-file-container.highlight {
+    border: 2px dashed #9f9;
+}
+
+.files-list {
+    display: none;
+    position: relative;
+    margin: 10px 0;
+    padding: 3px 30px 3px 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete-file {
+    display: flex;
+    position: absolute;
+    padding-bottom: 5px;
+    font-size: 24px;
+    font-weight: 700;
+    opacity: 0.5;
+    height: 100%;
+    width: 30px;
+    right: 0;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+.delete-file:hover {
+    background: #fee;
+    opacity: 0.7;
+}
+
+.input-error {
+    color: #f77;
+}
+
+.files-preview {
+    display: none;
+    flex-flow: column nowrap;
+    margin: 10px 0;
+    width: 100%;
+    height: 150px;
+}
+
+.files-preview-text {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.files-preview img{
+    object-fit: contain;
+    width: 100%;
+    height: calc( 100% - 15px);
+}

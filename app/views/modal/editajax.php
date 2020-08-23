@@ -10,7 +10,7 @@ defined('INCLUDE_INDEX') or die('Restricted access');
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form class="login-form" enctype="multipart/form-data" action="/admin/add/" method="POST">
+      <form class="js-validate-form js-form" enctype="multipart/form-data" action="/admin/edit/" method="POST">
       <div class="modal-body">
           <div class="form-group">
               <label for="inputName3">Наименование:</label>
@@ -25,16 +25,24 @@ defined('INCLUDE_INDEX') or die('Restricted access');
               <textarea type="text" class="form-control" id="inputDetailText3" placeholder="Подробный текст" name="detail_text" rows="6"></textarea>
           </div>
           <div class="form-group">
-            <div class="input-file-container">
+            <div class="input-file-container js-input-file-container">
               <label class="input-file-label" for="inputFile3"></label>
               <div class="input-file-text">Перетащите, или кликните чтобы выбрать изображение</div>
-              <input class="form-control-file input-file" id="inputFile3" type="file"  name="image">
+              <input class="form-control-file input-file js-input-file" id="inputFile3" type="file"  name="image">
+            </div>
+            <div class="files-list js-files-list">
+              <div class="js-file-name file-name"></div>
+              <div class="js-delete-file delete-file">&times;</div>
+            </div>
+            <div class="files-preview js-files-preview">
+              <div class="files-preview-text js-files-preview-text">Здесь уже установлена картинка:</div>
+            </div>
           </div>
-          
+          <input id="inputId3" type="hidden" name="id">
       </div>
       <div class="modal-footer">
         <div class="button-wrapper">
-          <button type="submit" class="btn btn-success">Изменить</button>
+          <button type="submit" class="btn btn-success js-btn-submit">Изменить</button>
         </div>
       </div>
       </form>

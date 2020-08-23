@@ -115,4 +115,36 @@ class Model
         Cache::delete($this->tableName);
         return true;
     }
+
+    public function update($args) {
+        $db = Db::getInstance();
+        $stmtQuery = "update $this->tableName set name=(?), preview_text=(?), detail_text=(?), image=(?) where id=(?)";
+        $args = [
+            [
+                'type' => 's',
+                'value' => $args['name'],
+            ],
+            [
+                'type' => 's',
+                'value' => $args['preview_text'],
+            ],
+            [
+                'type' => 's',
+                'value' => $args['detail_text'],
+            ],
+            [
+                'type' => 's',
+                'value' => $args['image'],
+            ],
+            [
+                'type' => 'i',
+                'value' => intval($args['id']),
+            ],
+        ];
+        
+        $db->prepareQuery($stmtQuery, $args);
+        $db->closeConnection();
+        Cache::delete($this->tableName);
+        return true;
+    }
 }

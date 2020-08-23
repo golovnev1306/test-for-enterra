@@ -39,6 +39,7 @@ defined('INCLUDE_INDEX') or die('Restricted access');
             </div>
           </div>
           <input id="inputId3" type="hidden" name="id">
+          <input id="inputOldImage3" type="hidden" name="oldImage">
       </div>
       <div class="modal-footer">
         <div class="button-wrapper">

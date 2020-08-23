@@ -124,11 +124,15 @@ footer {
 }
 
 .news-admin-item .news-name {
-    flex: .7 0 auto;
+    flex: 1 1 auto;
 }
 
 .news-admin-item .news-date-created {
-    flex: .3 0 auto;
+    padding: 0 30px;
+}
+
+.news-admin-item .buttons {
+    white-space: nowrap;
 }
 
 .button-wrapper {

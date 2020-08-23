@@ -86,6 +86,12 @@ class Admin extends Controller
             $model = new News();
             $data = $App->cleanArrayXss($_POST);
             if ($model->delete(intval($data['id']))) {
+                if(null !== $data['oldImage']  && !empty($data['oldImage'])) {
+                    $fileName = $App->pathToUpload() . $data['oldImage'];
+                    if (file_exists($fileName)) {
+                        unlink($fileName);
+                    }
+                }
                 $message = 'Успешно удалено';
             } else {
                 $message = 'Возникла проблема с запросом к базу';
@@ -113,9 +119,10 @@ class Admin extends Controller
             $model = new News();
             $data = $App->cleanArrayXss($_POST);
             $isErrorFileLoad = false;
-            $data['image'] = null;
+            $data['image'] = $data['oldImage'];
 
             if (!empty($_FILES) && $_FILES['image']['error'] === 0) {
+
                 $uploadDir = $App->pathToUpload();
                 $extension = (new SplFileInfo($_FILES['image']['name']))->getExtension();
 
@@ -126,6 +133,12 @@ class Admin extends Controller
                 if (strpos($mime, 'image') !== false) {
                     
                     if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
+                        if(!empty($data['oldImage'])) {
+                            $fileName = $App->pathToUpload() . $data['oldImage'];
+                            if (file_exists($fileName)) {
+                                unlink($fileName);
+                            }
+                        }
                         $data['image'] = $filename;
                     } else {
                         $message = 'возникла проблема при загрузке файла';

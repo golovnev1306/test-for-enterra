@@ -60,10 +60,14 @@ function init() {
     $butDeleteNews.on('click', function(ev){
         if (confirm('Уверены, что хотите удалить новость?')) {
             const id = $(this).closest('.js-news-admin-item').attr('data-id');
+            const oldImage = 
             $.ajax({
                 url: `/admin/deleteajax`,
                 method: 'POST',
-                data: {id: id},
+                data: {
+                    id: id,
+                    oldImage: window.$news[id].image,
+                },
                 success: function() {
                     location.reload();
                 }
@@ -103,6 +107,7 @@ function insertDataInModal($containerModal, id) {
                     '#inputPriviewText3' : window.$news[id].preview_text,
                     '#inputDetailText3' : window.$news[id].detail_text,
                     '#inputId3' : window.$news[id].id,
+                    '#inputOldImage3': window.$news[id].image,
                 };
 
                 if (null !== window.$news[id].image && window.$news[id].image.length > 0) {

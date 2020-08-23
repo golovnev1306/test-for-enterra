@@ -8,7 +8,12 @@ class Cache
     {
         global $App;
 
-        $fileName = $App->pathToCache() . $nameCacheFile . '.cache';
+        $pathToCache = $App->pathToCache();
+        if(!file_exists ($pathToCache)) {
+            mkdir($pathToCache);
+        }
+        
+        $fileName = $pathToCache . $nameCacheFile . '.cache';
         if (file_exists($fileName)) {
             $variable = unserialize(file_get_contents($fileName));
             return $variable;

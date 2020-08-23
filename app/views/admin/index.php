@@ -23,20 +23,20 @@ global $App;
 </div>
 <div class="news-admin-list row">
 <?if ($news) {?>
-<?foreach ($news as $item) {?>
+    <?foreach ($news as $item) {?>
 
-    <div class="col-sm-12">
-        <div class="news-admin-item js-news-admin-item" data-id="<?=$item["id"]?>">
-            <div class="news-name"><?=$item["name"]?></div>
-            <div class="news-date-created"><?=date($App->getConfig('dateFormat'), strtotime($item['date_created']))?></div>
-            <div class="buttons">
-                <button class="btn btn-info btn-sm btn-edit-modal-news js-btn-edit-modal-news" data-toggle="modal" data-target="#editNewsModal">Изменить</button>
-                <button class="btn btn-danger btn-sm btn-delete-news js-btn-delete-news">Удалить</button>
+        <div class="col-sm-12">
+            <div class="news-admin-item js-news-admin-item" data-id="<?=$item["id"]?>">
+                <div class="news-name"><?=$item["name"]?></div>
+                <div class="news-date-created"><?=date($App->getConfig('dateFormat'), strtotime($item['date_created']))?></div>
+                <div class="buttons">
+                    <button class="btn btn-info btn-sm btn-edit-modal-news js-btn-edit-modal-news" data-toggle="modal" data-target="#editNewsModal">Изменить</button>
+                    <button class="btn btn-danger btn-sm btn-delete-news js-btn-delete-news">Удалить</button>
+                </div>
             </div>
         </div>
-    </div>
 
-<?}?>
+    <?}?>
 <?} else {?>
     <div class="col-sm-12">Список пуст</div>
 <?}?>

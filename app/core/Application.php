@@ -11,8 +11,7 @@ class Application
 
     public static function getInstance()
     {
-        if (null === self::$instance)
-        {
+        if (null === self::$instance) {
             self::$instance = new self();
             $config = include $_SERVER['DOCUMENT_ROOT'] . "\app\config.php";
             self::$instance->config = $config;

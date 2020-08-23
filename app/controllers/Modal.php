@@ -10,17 +10,16 @@ class Modal extends Controller
 
     function addajaxAction() 
     {
-        global $App;
-
-        return View::render([], null, true); //true - вернет лишь часть контента
+        View::render([], null, true); //true - вернет лишь часть контента
     }
 
     function editajaxAction() 
     {
         global $App;
+        
         $data = $App->cleanArrayXss($_POST);
         $model = new News();
         $news = $model->getAll();
-        return View::render(['news' => $news], null, true);
+        View::render(['news' => $news], null, true);
     }
 }

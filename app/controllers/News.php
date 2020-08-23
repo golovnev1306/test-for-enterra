@@ -2,7 +2,6 @@
 defined('INCLUDE_INDEX') or die('Restricted access');
 use core\Controller;
 use core\View;
-use core\Cache;
 use models\News as NewsModel;
 
 class News extends Controller
@@ -18,8 +17,6 @@ class News extends Controller
 
     function detailAction($id = null) 
     {
-        global $App;
-
         $model = new NewsModel();
         $news = [];
 

@@ -19,7 +19,7 @@ global $App;
 </div>
 <hr>
 <div class="news-list row">
-
+<?if ($news) {?>
 <?foreach ($news as $item) {?>
 
     <div class="news-item col-xs-12 col-md-6 col-lg-4">
@@ -32,6 +32,9 @@ global $App;
         <a class="news-link" href="/news/detail/<?=$item["id"]?>"></a>
     </div>
 
+<?}?>
+<?} else {?>
+    <div class="col-sm-12">Список пуст</div>
 <?}?>
 
 </div>

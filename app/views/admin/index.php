@@ -22,7 +22,7 @@ global $App;
     <button class="btn btn-success button-open-modal-add-news" data-toggle="modal" data-target="#addNewsModal">Добавить</button>
 </div>
 <div class="news-admin-list row">
-
+<?if ($news) {?>
 <?foreach ($news as $item) {?>
 
     <div class="col-sm-12">
@@ -37,7 +37,9 @@ global $App;
     </div>
 
 <?}?>
-
+<?} else {?>
+    <div class="col-sm-12">Список пуст</div>
+<?}?>
 </div>
 <div class="modal-add-container js-modal-add-container"></div>
 <div class="modal-edit-container js-modal-edit-container"></div>

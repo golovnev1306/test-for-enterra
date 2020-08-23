@@ -20,19 +20,21 @@ global $App;
 <hr>
 <div class="news-list row">
 <?if ($news) {?>
-    <?foreach ($news as $item) {?>
+<?foreach ($news as $item) {?>
 
-        <div class="news-item col-xs-12 col-md-6 col-lg-4">
-            <div class="news-name"><?=$item["name"]?></div>
-            <div class="news-image">
-                <img src="<?=$item["image"] ? ('/upload/' . $item["image"]) : ($App->pathToImg() . 'no-photo.png')?>" alt="<?=$item["name"]?>">
-            </div>
-            <div class="news-priview-text"><?=$item["preview_text"]?></div>
-            <div class="news-date-created"><?=date($App->getConfig('dateFormat'), strtotime($item['date_created']))?></div>
-            <a class="news-link" href="/news/detail/<?=$item["id"]?>"></a>
+    <div class="news-item-wrap col-xs-12 col-md-6 col-lg-4">
+        <div class="news-item col-xs-12">
+        <div class="news-name"><?=$item["name"]?></div>
+        <div class="news-image">
+            <img src="<?=$item["image"] ? ('/upload/' . $item["image"]) : ($App->pathToImg() . 'no-photo.png')?>" alt="<?=$item["name"]?>">
         </div>
+        <div class="news-priview-text"><?=$item["preview_text"]?></div>
+        <div class="news-date-created"><?=date($App->getConfig('dateFormat'), strtotime($item['date_created']))?></div>
+        <a class="news-link" href="/news/detail/<?=$item["id"]?>"></a>
+        </div>
+    </div>
 
-    <?}?>
+<?}?>
 <?} else {?>
     <div class="col-sm-12">Список пуст</div>
 <?}?>

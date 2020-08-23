@@ -35,6 +35,9 @@ class Admin extends Controller
 
             if (!empty($_FILES) && $_FILES['image']['error'] === 0) {
                 $uploadDir = $App->pathToUpload();
+                if(!file_exists ($uploadDir)) {
+                    mkdir($uploadDir);
+                }
                 $extension = (new SplFileInfo($_FILES['image']['name']))->getExtension();
 
                 $filename = uniqid() . '.' . $extension;
@@ -122,8 +125,10 @@ class Admin extends Controller
             $data['image'] = $data['oldImage'];
 
             if (!empty($_FILES) && $_FILES['image']['error'] === 0) {
-
                 $uploadDir = $App->pathToUpload();
+                if(!file_exists ($uploadDir)) {
+                    mkdir($uploadDir);
+                }
                 $extension = (new SplFileInfo($_FILES['image']['name']))->getExtension();
 
                 $filename = uniqid() . '.' . $extension;

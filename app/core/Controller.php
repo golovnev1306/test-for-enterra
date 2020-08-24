@@ -27,7 +27,7 @@ class Controller
         }
     }
 
-    final static function start(Array $params) 
+    static function start(Array $params) 
     {
         global $App;
 
@@ -59,7 +59,7 @@ class Controller
         
     }
 
-    final static function error404() 
+    static function error404() 
     {
         global $App;
         self::$is404 = false;
@@ -73,22 +73,22 @@ class Controller
         self::start([]);
     }
 
-    final function getIsDisallow()
+    function getIsDisallow()
     {
         return $this->isDisallow;
     }
 
-    final function getIsForAutorized()
+    function getIsForAutorized()
     {
         return $this->isForAutorized;
     }
 
-    final function getIsForAjax()
+    function getIsForAjax()
     {
         return $this->isForAjax;
     }
 
-    final function reasonAccessDenied() {
+    function reasonAccessDenied() {
         global $App;
         $reason = '';
         $redirect = 'login';
